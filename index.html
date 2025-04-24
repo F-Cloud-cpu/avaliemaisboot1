@@ -1,0 +1,127 @@
+from pathlib import Path
+import zipfile
+
+# Criar o conteúdo dos arquivos
+index_html = """<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AvalieMais Boot - Avaliações reais de produtos, apps e serviços. Descubra experiências e análises imparciais.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Seu Nome ou Marca">
+  <title>AvalieMais Boot - Avaliações Reais de Produtos e Serviços</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>AvalieMais Boot</h1>
+    <nav>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#avaliacoes">Avaliações</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="sobre">
+      <h2>Sobre o Projeto</h2>
+      <p>O AvalieMais Boot oferece avaliações autênticas de produtos, serviços e aplicativos. Nosso foco é ajudar usuários a tomarem decisões conscientes.</p>
+    </section>
+
+    <section id="avaliacoes">
+      <h2>Últimas Avaliações</h2>
+
+      <article>
+        <h3>Avaliando o App X - Produtividade</h3>
+        <img src="appx.jpg" alt="Imagem do App X em funcionamento" width="300">
+        <p>Testamos o App X por 7 dias e esses foram os resultados...</p>
+      </article>
+
+      <article>
+        <h3>Review do Serviço Y - Vale a pena?</h3>
+        <img src="servicoy.jpg" alt="Imagem representando o serviço Y" width="300">
+        <p>Confira a experiência completa com o serviço Y e se ele realmente entrega o que promete...</p>
+      </article>
+    </section>
+
+    <section id="contato">
+      <h2>Entre em Contato</h2>
+      <p>Tem alguma sugestão ou quer ver algo avaliado aqui? Envie um email para: <a href="mailto:contato@avaliemais.com">contato@avaliemais.com</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AvalieMais Boot. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
+"""
+
+style_css = """body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+  color: #333;
+}
+
+header {
+  background: #222;
+  color: #fff;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background: white;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+"""
+
+# Criar os arquivos
+path = Path("/mnt/data/avaliemais_site")
+path.mkdir(parents=True, exist_ok=True)
+
+(index_path := path / "index.html").write_text(index_html, encoding="utf-8")
+(style_path := path / "style.css").write_text(style_css, encoding="utf-8")
+
+# Compactar os arquivos em um zip
+zip_path = Path("/mnt/data/avaliemais_site.zip")
+with zipfile.ZipFile(zip_path, 'w') as zipf:
+    zipf.write(index_path, arcname="index.html")
+    zipf.write(style_path, arcname="style.css")
+
+zip_path.name  # retornar nome do arquivo zip criado para download
+
